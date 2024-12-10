@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttermvvm/data/response/status.dart';
+import 'package:fluttermvvm/model/city.dart';
+import 'package:fluttermvvm/model/model.dart';
+import 'package:fluttermvvm/view/widgets/widgets.dart';
 import 'package:fluttermvvm/viewmodel/home_viewmodel.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 part 'home_page.dart';
 part 'counter.dart';
+part 'cost_page.dart';
+part 'main_menu.dart';
+part 'hitung_ongkir.dart';

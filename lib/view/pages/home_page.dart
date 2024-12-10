@@ -42,11 +42,8 @@ class _HomePageState extends State<HomePage> {
                 return ListView.builder(
                   itemCount: value.provinceList.data?.length,
                   itemBuilder: (context, index) {
-                    return Text(value.provinceList.data!
-                            .elementAt(index)
-                            .province
-                            .toString() +
-                        '\n');
+                    return CardProvince(
+                        value.provinceList.data!.elementAt(index));
                   },
                 );
               default:

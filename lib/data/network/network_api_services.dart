@@ -12,24 +12,46 @@ class NetworkApiServices implements BaseApiServies {
   Future getApiResponse(String endpoint) async {
     dynamic responseJson;
     try {
-      final response = await http.get(Uri.https(Const.baseUrl, endpoint),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'key': Const.apiKey
-          });
+      final uri = Uri.https(
+          Const.baseUrl,
+          Const.apiPath + endpoint.split('?')[0],
+          endpoint.contains('?')
+              ? Uri.splitQueryString(endpoint.split('?')[1])
+              : null);
+
+      final response = await http.get(uri, headers: {
+        'key': Const.apiKey,
+      });
+      print("URL: $uri");
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
       responseJson = returnResponse(response);
     } on SocketException {
       throw NoInternetException('');
-    } on TimeoutException {
-      throw FetchDataException('Network request time out!');
     }
     return responseJson;
   }
 
   @override
-  Future postApiResponse(String url, data) {
-    // TODO: implement postApiResponse
-    throw UnimplementedError();
+  Future postApiResponse(String endpoint, dynamic data) async {
+    dynamic responseJson;
+    try {
+      final response =
+          await http.post(Uri.https(Const.baseUrl, Const.apiPath + endpoint),
+              headers: {
+                'key': Const.apiKey,
+                'content-type': 'application/x-www-form-urlencoded',
+              },
+              body: data);
+      print("URL: ${Uri.https(Const.baseUrl, Const.apiPath + endpoint)}");
+      print("Data: $data");
+      print("Response status: ${response.statusCode}");
+      print("Response body: ${response.body}");
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw NoInternetException('');
+    }
+    return responseJson;
   }
 
   dynamic returnResponse(http.Response response) {
